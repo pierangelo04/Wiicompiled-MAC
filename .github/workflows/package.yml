@@ -76,3 +76,28 @@ jobs:
           path: Launcher/dist/WiiCompiled-Setup.exe
           if-no-files-found: error
           archive: false
+
+  macos-installer:
+    name: macOS (installer pkg, arm64)
+    runs-on: macos-14
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Install Ninja
+        run: brew install ninja
+
+      - name: Build package
+        run: bash Launcher/build-macos-pkg.sh
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: WiiCompiled-Setup-macos-arm64
+          path: Launcher/dist/WiiCompiled-Setup-macos-arm64.pkg
+          if-no-files-found: error
+          archive: false

@@ -15,8 +15,12 @@ concurrency:
 
 jobs:
   translator:
-    name: Translator (build + test)
-    runs-on: windows-latest
+    name: Translator (build + test, ${{ matrix.os }})
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, macos-14]
+    runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v7
         with:
